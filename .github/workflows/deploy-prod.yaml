@@ -1,0 +1,78 @@
+name: deploy-prod
+
+on:
+  push:
+    tags: [ v* ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    environment: production
+    timeout-minutes: 15
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN_PARETO_BOT }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN_PARETO_BOT }}
+      APP_NAME: app-example
+      APP_ENV: production
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN_PARETO_BOT }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@paretogroup'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Configure CI Git User
+        run: |
+          git config --global user.name 'Pareto Bot'
+          git config --global user.email 'pareto-bot@users.noreply.github.com'
+      - name: Ensuring access to package registry
+        run: npm whoami --registry https://npm.pkg.github.com
+      - name: Installing dependencies using NPM
+        run: npm install
+      - name: Install pw-cli
+        run: |
+          npm i -g @paretogroup/pw-cli
+      - name: Building packages
+        run: npm run build
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+      - name: get gcloud info
+        run:  gcloud info
+      - name: Deploy
+        id: deploy
+        run: |
+          url=$(gcloud run deploy $APP_NAME --region us-central1 --source . --format="value(status.url)")
+          echo $url
+          echo "::set-output name=url::$url"
+      - name: update app
+        env:
+          PW_CLIENT_ID: ${{ secrets.PW_CLIENT_ID }}
+          PW_CLIENT_SECRET: ${{ secrets.PW_CLIENT_SECRET }}
+          PW_APP_KEY: ${{ secrets.PW_APP_KEY }}
+        run: |
+          pw login-credentials \
+            --env $APP_ENV \
+            --client-id $PW_CLIENT_ID \
+            --client-secret $PW_CLIENT_SECRET
+          pw apps apply ./app.json \
+            --env $APP_ENV \
+            --args baseUrl=${{ steps.deploy.outputs.url }} \
+            --args appKey=$PW_APP_KEY
