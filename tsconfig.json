@@ -11,7 +11,7 @@
         "declarationMap": true,
         "incremental": true,
         "resolveJsonModule": true,
-        "baseUrl": "./pareto-workflows-app-example",
+        "baseUrl": ".",
         "outDir": "./dist"
     }
 }

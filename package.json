@@ -1,5 +1,5 @@
 {
-    "name": "pw-google-ads",
+    "name": "pw-app-example",
     "private": true,
     "scripts": {
         "start": "node ./dist/main.js",
@@ -16,14 +16,16 @@
         "@types/node": "^17.0.18",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.13.2",
-        "rxjs": "^7.5.4"
+        "rxjs": "^7.5.4",
+        "swagger-ui-express": "^4.5.0"
     },
     "devDependencies": {
         "@nestjs/cli": "^8.2.1",
         "@nestjs/schematics": "^8.0.6",
         "@nestjs/testing": "^8.3.0",
-        "@paretogroup/pw-cli": "^1.0.0",
-        "@paretogroup/pw-testing": "^1.0.0",
+        "@paretogroup/pw-cli": "^1.0.12",
+        "@paretogroup/pw-template-expressions": "^1.0.1",
+        "@paretogroup/pw-testing": "^1.0.4",
         "@types/jest": "^27.4.0",
         "@types/supertest": "^2.0.11",
         "@typescript-eslint/eslint-plugin": "^5.27.0",

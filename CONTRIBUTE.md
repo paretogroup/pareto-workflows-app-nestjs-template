@@ -13,8 +13,6 @@ $ cp .env.example .env
 $ npm i
 ```
 
-Ask for a squad leader to provide to you a _dev_ client credentials.
-
 ## Running the app
 
 ```bash
