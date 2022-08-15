@@ -1,5 +1,5 @@
 {
-    "$schema": "",
+    "$schema": "https://pareto-workflows-app.s3.amazonaws.com/app-schema.json",
     "key": "pareto_app_example",
     "name": "Pareto App Example",
     "logoUrl": "https://pareto-workflows-app.s3.amazonaws.com/icons/pareto_ads_256.png",
