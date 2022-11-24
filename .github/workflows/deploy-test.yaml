@@ -72,7 +72,7 @@ jobs:
             --env $APP_ENV \
             --client-id $PW_CLIENT_ID \
             --client-secret $PW_CLIENT_SECRET
-          pw apps apply ./app.json \
+          pw apps apply ./app.yaml \
             --env $APP_ENV \
             --args baseUrl=${{ steps.deploy.outputs.url }} \
             --args appKey=$PW_APP_KEY
