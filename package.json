@@ -3,8 +3,7 @@
     "private": true,
     "scripts": {
         "start": "node ./dist/main.js",
-        "dev": "pw dev",
-        "build": "pw build",
+        "dev": "nest start --watch",
         "deploy": "pw deploy",
         "test": "jest"
     },
