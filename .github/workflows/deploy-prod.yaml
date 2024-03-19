@@ -52,7 +52,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY__PARETO_BI }}
           export_default_credentials: true
       - name: get gcloud info
         run:  gcloud info
@@ -67,6 +67,8 @@ jobs:
           PW_CLIENT_ID: ${{ secrets.PW_CLIENT_ID }}
           PW_CLIENT_SECRET: ${{ secrets.PW_CLIENT_SECRET }}
           PW_APP_KEY: ${{ secrets.PW_APP_KEY }}
+          APP_CATALOG_URL: https://svc-pareto-workflows.prod.tech.pareto.io/api
+          RPA_CATALOG_URL: https://svc-pareto-workflows.prod.tech.pareto.io/api
         run: |
           pw login-credentials \
             --env $APP_ENV \
