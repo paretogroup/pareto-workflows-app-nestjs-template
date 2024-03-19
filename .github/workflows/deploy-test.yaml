@@ -67,6 +67,9 @@ jobs:
           PW_CLIENT_ID: ${{ secrets.PW_CLIENT_ID }}
           PW_CLIENT_SECRET: ${{ secrets.PW_CLIENT_SECRET }}
           PW_APP_KEY: ${{ secrets.PW_APP_KEY }}
+          APP_CATALOG_URL: https://svc-pareto-workflows.dev.tech.pareto.io/api
+          RPA_CATALOG_URL: https://svc-pareto-workflows.dev.tech.pareto.io/api
+          PW_TOKEN_ENDPOINT: "https://poc-auth-server-eeovr6s24q-uc.a.run.app/dev/token"
         run: |
           pw login-credentials \
             --env $APP_ENV \
